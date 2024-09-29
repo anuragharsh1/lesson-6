@@ -27,4 +27,4 @@ jobs:
           - name: access output
             id: deployStep
             run: |
-             echo "${{ needs.build-job.outputs.build-output }}" >> "$GITHUB_OUTPUT"
+             echo "${{ needs.build-job.outputs.build-output }}"
