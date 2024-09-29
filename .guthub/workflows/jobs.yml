@@ -1,0 +1,30 @@
+name: jobs
+
+on:
+   push:
+
+jobs: 
+   build-job:
+      name: build job
+      runs-on: ubuntu-latest
+      outputs: 
+         build-output: ${{ steps.buildStep.outputs.buildOut }}
+      container: 
+         image: oven/bun:slim
+      steps:
+          name: define output variable
+          id: buildStep
+          run: |
+             bunver=$(bun --version)
+             echo "buildOut=$bunver" >> "$GITHUB_OUTPUT"
+
+
+   deploy-job:
+       name: deploy job
+       needs: build-job
+       runs-on: ubuntu-latest
+       steps:
+          name: access output
+          id: deployStep
+          run: |
+             echo "${{ needs.build-job.outputs.build-output }}" >> "$GITHUB_OUTPUT"
